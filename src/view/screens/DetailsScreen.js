@@ -1,10 +1,20 @@
-import React from 'react';
-import {View, SafeAreaView, Image, Text, StyleSheet} from 'react-native';
+import React, { useState } from 'react';
+import {View, SafeAreaView, Image, Text, StyleSheet, ScrollView, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
 
 const DetailsScreen = ({navigation, route}) => {
   const plant = route.params;
+  const [quantity, setQuantity] = useState(0)
+
+  const onMinus = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1)
+    }
+  }
+  const onPlus = () => {
+    setQuantity(quantity + 1)
+  }
 
   return (
     <SafeAreaView
@@ -19,7 +29,7 @@ const DetailsScreen = ({navigation, route}) => {
       <View style={style.imageContainer}>
         <Image source={plant.img} style={{resizeMode: 'contain', flex: 1}} />
       </View>
-      <View style={style.detailsContainer}>
+      <ScrollView style={style.detailsContainer}>
         <View
           style={{
             marginLeft: 20,
@@ -54,7 +64,7 @@ const DetailsScreen = ({navigation, route}) => {
           <Text style={{fontSize: 20, fontWeight: 'bold'}}>About</Text>
           <Text
             style={{
-              color: 'grey',
+              color: '#706a6a',
               fontSize: 16,
               lineHeight: 22,
               marginTop: 10,
@@ -72,20 +82,20 @@ const DetailsScreen = ({navigation, route}) => {
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-              <View style={style.borderBtn}>
+                <Pressable onPress={onMinus} style={style.borderBtn}>
                 <Text style={style.borderBtnText}>-</Text>
-              </View>
+                </Pressable>
               <Text
                 style={{
                   fontSize: 20,
                   marginHorizontal: 10,
                   fontWeight: 'bold',
                 }}>
-                1
+                {quantity}
               </Text>
-              <View style={style.borderBtn}>
+                <Pressable onPress={onPlus} style={style.borderBtn}>
                 <Text style={style.borderBtnText}>+</Text>
-              </View>
+                </Pressable>
             </View>
 
             <View style={style.buyBtn}>
@@ -96,7 +106,7 @@ const DetailsScreen = ({navigation, route}) => {
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
